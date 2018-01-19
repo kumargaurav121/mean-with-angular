@@ -1,0 +1,42 @@
+<h1>Register Form</h1>
+<hr>
+
+<form [formGroup]="myForm" (submit)="onRegisterSubmit()">
+  <div class="form-group">
+    <label for="email">Email address</label>
+    <div [ngClass]="{'has-error': (myForm.controls.email.errors && myForm.controls.email.dirty) , 'has-success': !myForm.controls.email.errors}">
+      <input type="email" class="form-control" id="email" name="email" formControlName="email" aria-describedby="emailHelp" placeholder="Enter email">
+      <p class="help-block" *ngIf="myForm.controls.email.errors?.required && myForm.controls.email.dirty">This field is required</p>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="username">Username</label>
+    <div [ngClass]="{'has-error': (myForm.controls.username.errors && myForm.controls.username.dirty) , 'has-success': !myForm.controls.username.errors}">
+      <input type="text" class="form-control" id="username" name="username" formControlName="username" aria-describedby="usernameHelp" placeholder="Enter email" required>
+      <p class="help-block" *ngIf="myForm.controls.username.errors?.required && myForm.controls.username.dirty">This field is required</p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <div [ngClass]="{'has-error': (myForm.controls.password.errors && myForm.controls.password.dirty) , 'has-success': !myForm.controls.password.errors}">
+      <input type="password" class="form-control" id="password" name="password" formControlName="password" placeholder="Password" required>
+      <p class="help-block" *ngIf="myForm.controls.password.errors?.required && myForm.controls.password.dirty">This field is required</p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="confirm">Password</label>
+    <div [ngClass]="{'has-error': (myForm.controls.confirm.errors && myForm.controls.confirm.dirty) || (myForm.errors?.matchPassword && myForm.controls.confirm.dirty) , 'has-success': !myForm.controls.confirm.errors && !myForm.errors?.matchPassword}">
+      <input type="password" class="form-control" id="confirm" name="confirm" formControlName="confirm" placeholder="Confirm Password" required>
+      <p class="help-block" *ngIf="myForm.errors?.matchPassword && myForm.controls.confirm.dirty">Password Doesn't Match</p>
+    </div>
+  </div>
+  
+  <button type="submit" class="btn btn-primary" [disabled]="!myForm.valid">Submit</button>
+</form>
+
+<hr>
+
+<!-- <p>email: {{ myForm.controls.email.value }}</p>
+<p>username: {{ myForm.controls.username.value }}</p>
+<p>password: {{ myForm.controls.password.value }}</p> -->
