@@ -1,11 +1,19 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const {mongoose} = require('./../db/myDb');
 
 const app = express();
 const router = express.Router();
+
+
+app.use(cors({
+    origin: 'http://localhost:4200',
+    optionsSuccessStatus: 200
+}));
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
  
@@ -14,6 +22,9 @@ app.use(bodyParser.json());
 
 
 const authentication = require('../router/authentication')(router);
+const blogs = require('../router/blogs')(router);
+
+
 
 
 
@@ -28,6 +39,7 @@ const dirpath = path.join(__dirname, '../client/dist/');
 
 app.use(express.static(dirpath));
 app.use('/authentication', authentication);
+app.use('/blogs', blogs);
 
 
 

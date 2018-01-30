@@ -25,10 +25,10 @@ userSchema.pre('save', function(next) {
     });
 });
 
-userSchema.methods.comparePasswords = (password) => {
+userSchema.methods.comparePasswords = function(password){
     return bcrypt.compareSync(password, this.password);
 }
 
 
 
-module.exports = mongoose.model('Blog', userSchema);
+module.exports = mongoose.model('User', userSchema);

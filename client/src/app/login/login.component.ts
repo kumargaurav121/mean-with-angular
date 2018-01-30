@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { AuthGuard } from '../auth/auth.gaurd';
 
 @Component({
   selector: 'app-login',
@@ -14,18 +15,27 @@ export class LoginComponent implements OnInit {
   messageClass;
   message;
   processing = false;
+  previousUrl;
 
   constructor(
     private authService : AuthService,
-    private router : Router
+    private router : Router,
+    private authGuard: AuthGuard
   ) { }
 
   ngOnInit() {
 
     this.loginForm = new FormGroup({
       'username' : new FormControl(null, [Validators.required, Validators.minLength(6)]),
-      'password' : new FormControl(null, [Validators.required, Validators.minLength(8)])
+      'password' : new FormControl(null, [Validators.required, Validators.minLength(6)])
     })
+
+    if(this.authGuard.redirectUrl){
+      this.message = 'You Must be Logged In to Visit This Page';
+      this.messageClass = 'alert alert-info';
+      this.previousUrl = this.authGuard.redirectUrl;
+      this.authGuard.redirectUrl = undefined;
+    }
 
   }
 
@@ -64,7 +74,12 @@ export class LoginComponent implements OnInit {
         this.message = data.message;
         this.authService.storeUserData(data.user, data.token);
         setTimeout(() =>{
-          this.router.navigate(['/dashboard']);
+
+          if(this.previousUrl){
+            this.router.navigate([this.previousUrl]);
+          } else{
+            this.router.navigate(['/dashboard']);
+          }
         }, 2000);
       }
     });
