@@ -22,48 +22,44 @@
 
 <div *ngIf="!newPost">
 
-  <div class="panel panel-primary">
+  <div class="panel panel-primary" *ngFor="let blog of blogs">
     <div class="panel-heading">
-      <h3 class="panel-title">Post Title</h3>
+      <h3 class="panel-title">{{ blog.title }}</h3>
     </div>
     <div class="panel-body">
-      hbfasn hasi f h s fhshd fsdh sd fjds jf
+      {{ blog.body }}
     </div>
     <div class="panel-footer">
-      <strong>Posted By: </strong>KG
+      <strong>Posted By: </strong>{{ blog.createdBy }}
       <br>
-      <strong>Date: </strong>20th jan, 2018
+      <strong>Date: </strong>{{ blog.createdAt | date: 'dd-MM-yyyy' }}
       <br>
-      <div>
-        <strong>Likes: </strong>25
+      <div *ngIf="username === blog.createdBy">
+        <strong>Likes: </strong>{{ blog.like }}
         <br>
-        <strong>Dislikes: </strong>25
+        <strong>Dislikes: </strong>{{ blog.dislike }}
       </div>
-      <a href="#/"><button class="btn btn-primary">Edit</button></a>
-      <a href="#/"><button class="btn btn-danger">Delete</button></a>
+      <a [routerLink]="['/edit-Blog', blog._id]"><button class="btn btn-primary" *ngIf="username === blog.createdBy">Edit</button></a>
+      <a [routerLink]="['/delete-Blog', blog._id]"><button class="btn btn-danger" *ngIf="username === blog.createdBy">Delete</button></a>
 
       <!-- Likes Dropdown -->
-      <div class="dropdown">
+      <div class="dropdown"  *ngIf="username !== blog.createdBy">
         <button class="btn btn-success">
-          <span class="glyphicon glyphicon-thumbs-up">&nbsp;</span> Likes: 21
+          <span class="glyphicon glyphicon-thumbs-up">&nbsp;</span> Likes: {{ blog.like }}
         </button>
         <div class="dropdown-content">
-          <a href="#">sdffsdf</a>
-          <a href="#">sdffsdf</a>
-          <a href="#">sdffsdf</a>
+          <a href="#" *ngFor="let likes of blog.likedBy">{{ likes }}</a>
         </div>
       </div>
 
 
       <!-- Dislikes Dropdown -->
-      <div class="dropdown">
+      <div class="dropdown" *ngIf="username !== blog.createdBy">
         <button class="btn btn-warning">
-          <span class="glyphicon glyphicon-thumbs-down">&nbsp;</span> Dislikes: 21
+          <span class="glyphicon glyphicon-thumbs-down">&nbsp;</span> Dislikes: {{ blog.dislike }}
         </button>
         <div class="dropdown-content">
-          <a href="#">sdffsdf</a>
-          <a href="#">sdffsdf</a>
-          <a href="#">sdffsdf</a>
+          <a href="#" *ngFor="let dislikes of blog.dislikedBy">{{ dislikes }}</a>
         </div>
       </div>
 

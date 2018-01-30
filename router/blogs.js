@@ -37,6 +37,19 @@ module.exports = (router) => {
     });
 
 
+    router.get('/viewAll', (req, res) => {
+        Blog.find({}).sort({'_id': -1}).then((doc) => {
+            if(!doc){
+                res.json({success: false, message: 'No Blog Found'});
+            } else{
+                res.json({success: true, blogs: doc});
+            }
+        }, (err) => {
+            res.send({success: false, message: err});
+        });
+    });
+
+
     return router;
 
 }

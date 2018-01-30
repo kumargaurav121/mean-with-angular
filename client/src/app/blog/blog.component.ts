@@ -18,6 +18,7 @@ export class BlogComponent implements OnInit {
   blogForm: FormGroup;
   processing = false;
   username;
+  blogs = [];
 
   constructor(
     private authService: AuthService,
@@ -33,8 +34,32 @@ export class BlogComponent implements OnInit {
     });
 
     this.authService.getProfile().subscribe(data => {
-      this.username = data.user.username;
-      //console.log('data',this.username);
+      //console.log(data);
+      if(!data.success){
+        this.authService.logout();
+        this.router.navigate(['/login']);
+      } else{
+        this.username = data.user.username;
+        //console.log('data',this.username);
+        this.getAllBlogs();
+      }
+    });
+
+    
+  }
+
+
+  getAllBlogs(){
+    this.blogService.getAllBlogs().subscribe(data => {
+      // this.message = JSON.stringify(data, undefined, 2);
+      // this.messageClass = 'alert alert-danger';
+
+      if(!data.success){
+        this.message = 'No Blog Found';
+        this.messageClass = 'alert alert-danger';
+      } else{
+        this.blogs = data.blogs;
+      }
     });
   }
 
@@ -45,7 +70,7 @@ export class BlogComponent implements OnInit {
 
   loadBlogs(){
     this.loadingBlogs = true;
-
+    this.getAllBlogs();
     setTimeout(() => {
       this.loadingBlogs = false;
     }, 4000);
@@ -95,6 +120,7 @@ export class BlogComponent implements OnInit {
           //this.router.navigate(['/blog']);
           this.enableForm();
           this.processing = false;
+          this.getAllBlogs();
           this.newPost = false;
           this.blogForm.reset();
           this.message = null;

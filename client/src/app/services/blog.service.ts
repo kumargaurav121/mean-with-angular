@@ -29,4 +29,10 @@ export class BlogService {
     return this.http.post(this.domain + '/blogs/newBlog', blog, this.authService.options).map(res => res.json());
   }
 
+
+  getAllBlogs(){
+    this.authService.createAuthenticationHeader();
+    return this.http.get(this.domain + '/blogs/viewAll', this.authService.options).map(res => res.json());
+  }
+
 }
