@@ -1,0 +1,29 @@
+<h1> Edit Blog</h1>
+
+<hr>
+
+<div class="row show-hide-message">
+  <div [ngClass]="messageClass">
+    {{message}}
+  </div>
+</div>
+
+
+<form (submit)="updateBlog()">
+
+  <div class="form-group">
+    <label for="title">Title</label>
+    <input type="text" name="title" id="title" [(ngModel)]="blog.title" class="form-control" [disabled]="processing">
+  </div>
+
+
+  <div class="form-group">
+    <label for="body">Body</label>
+    <textarea type="text" name="body" id="body" [(ngModel)]="blog.body" class="form-control" rows="5" [disabled]="processing"></textarea>
+  </div>
+
+  <a [routerLink]="['/blog']"><button class="btn btn-danger" [disabled]="processing">Cancel</button></a>
+  <button class="btn btn-info" type="submit" [disabled]="processing">Update</button>
+
+
+</form>

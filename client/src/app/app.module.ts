@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
@@ -17,6 +18,7 @@ import { FlashMessagesModule } from 'angular2-flash-messages';
 import { AuthGuard } from './auth/auth.gaurd';
 import { NotAuthGuard } from './auth/notAuth.guard';
 import { BlogComponent } from './blog/blog.component';
+import { EditBlogComponent } from './blog/edit-blog/edit-blog.component';
 
 const appRoute : Routes = [
   {path: "", component: HomeComponent},
@@ -25,6 +27,7 @@ const appRoute : Routes = [
   {path: "login", component: LoginComponent, canActivate: [NotAuthGuard]},
   {path: "profile", component: ProfileComponent, canActivate: [AuthGuard]},
   {path: "blog", component: BlogComponent, canActivate: [AuthGuard]},
+  {path: "edit-blog/:id", component: EditBlogComponent, canActivate: [AuthGuard]},
   {path: "**", component: HomeComponent}
 ];
 
@@ -38,13 +41,15 @@ const appRoute : Routes = [
     RegisterComponent,
     LoginComponent,
     ProfileComponent,
-    BlogComponent
+    BlogComponent,
+    EditBlogComponent
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     RouterModule.forRoot(appRoute),
     HttpModule,
+    FormsModule,
     FlashMessagesModule.forRoot()
   ],
   providers: [

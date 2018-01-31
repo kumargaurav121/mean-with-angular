@@ -39,8 +39,8 @@
         <br>
         <strong>Dislikes: </strong>{{ blog.dislike }}
       </div>
-      <a [routerLink]="['/edit-Blog', blog._id]"><button class="btn btn-primary" *ngIf="username === blog.createdBy">Edit</button></a>
-      <a [routerLink]="['/delete-Blog', blog._id]"><button class="btn btn-danger" *ngIf="username === blog.createdBy">Delete</button></a>
+      <a [routerLink]="['/edit-blog', blog._id]"><button class="btn btn-primary" *ngIf="username === blog.createdBy">Edit</button></a>
+      <a [routerLink]="['/delete-blog', blog._id]"><button class="btn btn-danger" *ngIf="username === blog.createdBy">Delete</button></a>
 
       <!-- Likes Dropdown -->
       <div class="dropdown"  *ngIf="username !== blog.createdBy">

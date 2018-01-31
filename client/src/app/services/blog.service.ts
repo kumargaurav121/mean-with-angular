@@ -35,4 +35,18 @@ export class BlogService {
     return this.http.get(this.domain + '/blogs/viewAll', this.authService.options).map(res => res.json());
   }
 
+
+  editBlog(id){
+    //console.log(id);
+    this.authService.createAuthenticationHeader();
+    return this.http.get(this.domain + '/blogs/edit-blog/'+ id, this.authService.options).map(res => res.json());
+  }
+
+
+  updateBlog(blog){
+    
+    this.authService.createAuthenticationHeader();
+    return this.http.post(this.domain + '/blogs/update-blog', blog, this.authService.options).map(res => res.json());
+  }
+
 }
