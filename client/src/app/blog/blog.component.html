@@ -48,7 +48,7 @@
           <span class="glyphicon glyphicon-thumbs-up">&nbsp;</span> Likes: {{ blog.like }}
         </button>
         <div class="dropdown-content">
-          <a href="#" *ngFor="let likes of blog.likedBy">{{ likes }}</a>
+          <a [routerLink]="['/public-profile/', likes]" *ngFor="let likes of blog.likedBy">{{ likes }}</a>
         </div>
       </div>
 
@@ -59,7 +59,7 @@
           <span class="glyphicon glyphicon-thumbs-down">&nbsp;</span> Dislikes: {{ blog.dislike }}
         </button>
         <div class="dropdown-content">
-          <a href="#" *ngFor="let dislikes of blog.dislikedBy">{{ dislikes }}</a>
+          <a  [routerLink]="['/public-profile/', dislikes]" *ngFor="let dislikes of blog.dislikedBy">{{ dislikes }}</a>
         </div>
       </div>
 
