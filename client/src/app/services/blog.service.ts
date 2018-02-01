@@ -54,4 +54,17 @@ export class BlogService {
     return this.http.delete(this.domain + '/blogs/delete-blog/' + id, this.authService.options).map(res => res.json());
   }
 
+  likeBlog(id){
+    const blog= {id: id};
+    this.authService.createAuthenticationHeader();
+    return this.http.post(this.domain + '/blogs/like-blog', blog, this.authService.options).map(res => res.json());
+  }
+
+
+  dislikeBlog(id){
+    const blog= {id: id};
+    this.authService.createAuthenticationHeader();
+    return this.http.post(this.domain + '/blogs/dislike-blog', blog, this.authService.options).map(res => res.json());
+  }
+
 }

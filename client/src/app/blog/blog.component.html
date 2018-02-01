@@ -44,7 +44,7 @@
 
       <!-- Likes Dropdown -->
       <div class="dropdown"  *ngIf="username !== blog.createdBy">
-        <button class="btn btn-success">
+        <button class="btn btn-success" (click)="likeBlog(blog._id)" [disabled]="blog.likedBy.includes(username)">
           <span class="glyphicon glyphicon-thumbs-up">&nbsp;</span> Likes: {{ blog.like }}
         </button>
         <div class="dropdown-content">
@@ -55,7 +55,7 @@
 
       <!-- Dislikes Dropdown -->
       <div class="dropdown" *ngIf="username !== blog.createdBy">
-        <button class="btn btn-warning">
+        <button class="btn btn-warning" (click)="dislikeBlog(blog._id)" [disabled]="blog.dislikedBy.includes(username)">
           <span class="glyphicon glyphicon-thumbs-down">&nbsp;</span> Dislikes: {{ blog.dislike }}
         </button>
         <div class="dropdown-content">

@@ -160,7 +160,114 @@ module.exports = (router) => {
                 res.json({success: false, message: 'Please check the connection'});
             });
         }
-    })
+    });
+
+
+    router.post('/like-blog', (req, res) => {
+        if(!req.body.id){
+            res.json({success: false, message: 'Id is not provided'});
+        } else{
+            Blog.findById(req.body.id).then((blog) => {
+                if(!blog){
+                    res.json({success: false, message: 'Blog not found'});
+                } else{
+                    console.log(blog);
+                    User.findById(req.decoded.userId).then((user) => {
+                        if(!user){
+                            res.json({success: false, message: 'User is not found'});
+                        } else{
+                            console.log(user);
+                            if(user.username === blog.createdBy){
+                                res.json({success: false, message: 'cannot like own post'});
+                            } else{
+                                if(blog.likedBy.includes(user.username)){
+                                    res.json({success: false, message: 'You have already liked it'});
+                                } else{
+                                    if(blog.dislikedBy.includes(user.username)){
+                                        blog.dislike--;
+                                        const arrayindex = blog.dislikedBy.indexOf(user.username);
+                                        blog.dislikedBy.splice(arrayindex, 1);
+                                    }
+                                    console.log(blog.like);
+                                    blog.like++;
+                                    console.log(blog.like);
+                                    blog.likedBy.push(user.username);
+                                    console.log(blog.likedBy);
+                                    blog.update(blog).then((doc) => {
+                                        if(!doc){
+                                            res.json({success: false, message: 'No blog liked'});
+                                        } else{
+                                            res.json({success: true, message: 'You liked the blog'});
+                                        }
+                                    }, (err) => {
+                                        res.json({success: false, message: 'cannot save blog', err: err});
+                                    })
+                                }
+                            }
+                        }
+                    }, (err) => {
+                        res.json({success: false, message: 'cannot fetch the user'});
+                    })
+                }
+            }, (err) => {
+                res.json({success: false, message: 'cannot fetch the id'});
+            })
+        }
+    });
+
+
+
+    router.post('/dislike-blog', (req, res) => {
+        if(!req.body.id){
+            res.json({success: false, message: 'Id is not provided'});
+        } else{
+            Blog.findById(req.body.id).then((blog) => {
+                if(!blog){
+                    res.json({success: false, message: 'Blog not found'});
+                } else{
+                    console.log(blog);
+                    User.findById(req.decoded.userId).then((user) => {
+                        if(!user){
+                            res.json({success: false, message: 'User is not found'});
+                        } else{
+                            console.log(user);
+                            if(user.username === blog.createdBy){
+                                res.json({success: false, message: 'cannot dislike own post'});
+                            } else{
+                                if(blog.dislikedBy.includes(user.username)){
+                                    res.json({success: false, message: 'You have already disliked it'});
+                                } else{
+                                    if(blog.likedBy.includes(user.username)){
+                                        blog.like--;
+                                        const arrayindex = blog.likedBy.indexOf(user.username);
+                                        blog.likedBy.splice(arrayindex, 1);
+                                    }
+                                    console.log(blog.dislike);
+                                    blog.dislike++;
+                                    console.log(blog.dislike);
+                                    blog.dislikedBy.push(user.username);
+                                    console.log(blog.dislikedBy);
+                                    blog.update(blog).then((doc) => {
+                                        if(!doc){
+                                            res.json({success: false, message: 'No blog disliked'});
+                                        } else{
+                                            res.json({success: true, message: 'You disliked the blog'});
+                                        }
+                                    }, (err) => {
+                                        res.json({success: false, message: 'cannot save blog', err: err});
+                                    })
+                                }
+                            }
+                        }
+                    }, (err) => {
+                        res.json({success: false, message: 'cannot fetch the user'});
+                    })
+                }
+            }, (err) => {
+                res.json({success: false, message: 'cannot fetch the id'});
+            })
+        }
+    });
 
 
     return router;
